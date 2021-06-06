@@ -19,9 +19,5 @@ public class PremiumShopCarBackendApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		UserDTO user = new UserDTO(null, "Victor Lucas", "victorlucas.ao@gmail.com", "123");
-		UserDTO user1 = new UserDTO(null, "Mercia Jeane", "mercia.jeane17@gmail.com", "4321");
-		service.save(user);
-		service.save(user1);
 	}
 }
