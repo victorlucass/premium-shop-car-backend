@@ -42,6 +42,12 @@ public class CarController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<Car>> getFilterName(@RequestParam("name") String name ){
+        List<Car> listFilter = service.findByName(name);
+        return ResponseEntity.ok().body(listFilter);
+    }
+
     @PostMapping()
     public ResponseEntity<Car> save(@Valid @RequestBody CarDTO dto) {
         Car car = service.save(dto);

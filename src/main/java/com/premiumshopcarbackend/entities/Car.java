@@ -55,5 +55,27 @@ public class Car implements Serializable {
 
     private Boolean licenciado;
 
+    public static Car converter(Car car){
+        var car1 = new Car();
+        car1.setId(car.getId());
+        car1.setNome(car.getNome());
+        car1.setModelo(car.getModelo());
+        car1.setDescricao(car.getDescricao());
+        car1.setAno(car.getAno());
+        car1.setKm(car.getKm());
+        car1.setFinalPlaca(car.getFinalPlaca());
+        car1.setValor(car.getValor());
+        car1.setCor(car.getCor());
+        car1.setImagem(car.getImagem());
+        car1.setCambio(car.getCambio());
+        car1.setLocalidade(car.getLocalidade());
+        car1.setCombustivel(car.getCombustivel());
+        car1.setGarantiaFabrica(car.getGarantiaFabrica());
+        car1.setUnicoDono(car.getUnicoDono());
+        car1.setIpvaPago(car.getIpvaPago());
+        car1.setLicenciado(car.getLicenciado());
+        return car1;
+    }
+
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServices implements BaseResourceService<Car, CarDTO> {
@@ -29,6 +30,11 @@ public class CarServices implements BaseResourceService<Car, CarDTO> {
         Optional<Car> carSelect = repo.findById(id);
         return carSelect.orElseThrow(
                 () -> new ObjectNotFoundException("Carro não encontrado! Talvez o id " + id + " não exista."));
+    }
+
+    /*Pesquisa por nome*/
+    public List<Car> findByName(String name){
+        return repo.findByNomeContains(name).stream().map(Car::converter).collect(Collectors.toList());
     }
 
     /*Paginação*/
