@@ -5,13 +5,16 @@ import com.premiumshopcarbackend.entities.User;
 import com.premiumshopcarbackend.repositories.UserRepository;
 import com.premiumshopcarbackend.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements BaseResourceService<User, UserDTO>{
+public class UserService implements BaseResourceService<User, UserDTO>, UserDetailsService {
 
     @Autowired
     private UserRepository repo;
@@ -62,6 +65,14 @@ public class UserService implements BaseResourceService<User, UserDTO>{
         user.setSenha((dto.getSenha() == null) ? user.getSenha() : dto.getSenha());
         return user;
     }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repo.findByEmail(username);
+        return org.springframework.security.core.userdetails.User.builder().username(user.getEmail()).password(user.getSenha()).roles("USER").build();
+    }
+
 
 
 }

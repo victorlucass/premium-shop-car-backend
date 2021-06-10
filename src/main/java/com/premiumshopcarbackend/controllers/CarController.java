@@ -3,15 +3,20 @@ package com.premiumshopcarbackend.controllers;
 import com.premiumshopcarbackend.DTO.CarDTO;
 import com.premiumshopcarbackend.entities.Car;
 import com.premiumshopcarbackend.services.CarServices;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.Part;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cars")
@@ -60,6 +65,11 @@ public class CarController {
         dto.setId(id);
         service.update(dto);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{id}/img")
+    public byte[] addPhoto(@PathVariable Integer id, @RequestParam("foto") Part arquivo){
+        return service.addPhoto(id, arquivo);
     }
 
     @DeleteMapping("/{id}")

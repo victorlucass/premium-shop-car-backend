@@ -4,12 +4,18 @@ import com.premiumshopcarbackend.DTO.CarDTO;
  import com.premiumshopcarbackend.entities.Car;
 import com.premiumshopcarbackend.repositories.CarRespository;
 import com.premiumshopcarbackend.services.exceptions.ObjectNotFoundException;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,6 +67,23 @@ public class CarServices implements BaseResourceService<Car, CarDTO> {
     public void delete(Integer id) {
         Car carDelete = findById(id);
         repo.delete(carDelete);
+    }
+
+    public byte[] addPhoto(@PathVariable Integer id, @RequestParam("foto") Part arquivo){
+        Optional<Car> car = repo.findById(id);
+        return car.map( c -> {
+            try{
+                InputStream is = arquivo.getInputStream();
+                byte[] bytes = new byte[(int) arquivo.getSize()];
+                IOUtils.readFully(is, bytes);
+                c.setImagem(bytes);
+                repo.save(c);
+                is.close();
+                return bytes;
+            }catch (IOException e){
+                return null;
+            }
+        }).orElseThrow(() -> new ObjectNotFoundException("Erro ao enviar foto!"));
     }
 
     private Car fromObject(Car car, CarDTO dto) {

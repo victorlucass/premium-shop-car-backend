@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
@@ -38,8 +39,8 @@ public class CarDTO implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     private String cor;
 
-
-    private String imagem;
+    @Lob
+    private byte[] imagem;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     private String cambio;
